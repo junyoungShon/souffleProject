@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- MyBatis  DataSource에 대한 설정 및  SQL 정의 xml 에 대한 매핑-->
+<configuration>	
+
+	<!-- 사용할 VO에 대한 별칭을 명시한다.  -->
+	<typeAliases>
+		<typeAlias type="us.co.souffleProtoType.vo.AcademyInfo" alias="academyInfo"/>
+		<typeAlias type="us.co.souffleProtoType.vo.MemberInfo" alias="memberInfo"/>
+		<typeAlias type="us.co.souffleProtoType.vo.MemberLogin" alias="memberLogin"/>
+		<typeAlias type="us.co.souffleProtoType.vo.StudentInfo" alias="studentInfo"/>
+		<typeAlias type="us.co.souffleProtoType.vo.TeacherInfo" alias="teacherInfo"/>
+		<typeAlias type="us.co.souffleProtoType.vo.StuTeaRel" alias="stuTeaRel"/>
+	</typeAliases>
+	
+    <!-- mybatis sql 정의 xml을  mapping  -->
+	<mappers>
+		<mapper resource="mybatis/config/teacher.xml"></mapper>	
+		<mapper resource="mybatis/config/app.xml"></mapper>	
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

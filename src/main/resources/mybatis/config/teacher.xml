@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="teacher">
+
+	<!-- academyInfo Result Map 설정 -->
+ 	<resultMap type="academyInfo" id="academyInfo">
+ 		<result property="academyCode" column="academy_code"/>
+ 		<result property="academyName" column="academy_name"/>
+ 		<result property="academyAddress" column="academy_address"/>
+ 		<result property="academyRegion" column="academy_region"/>
+ 		<result property="academyPhone" column="academy_phone"/>
+ 	</resultMap>
+ 	<!-- memberInfo Result Map 설정 -->
+ 	<resultMap type="memberInfo" id="memberInfo">
+ 		<result property="memberEmail" column="member_email"/>
+ 		<result property="memberPassword" column="member_password"/>
+ 		<result property="memberName" column="member_name"/>
+ 		<result property="memberRole" column="member_role"/>
+ 	</resultMap>
+ 	<!-- memberLogin Result Map 설정 -->
+ 	<resultMap type="memberLogin" id="memberLogin" extends="memberInfo">
+ 		<result property="loginTime" column="logintime"/>
+ 	</resultMap>
+ 	<!-- studentInfo Result Map 설정 -->
+ 	<resultMap type="studentInfo" id="studentInfo" extends="memberInfo">
+ 		<result property="studentBirth" column="student_birth"/>
+ 	</resultMap>
+ 	<!-- teacherInfo Result Map 설정 -->
+ 	<resultMap type="teacherInfo" id="teacherInfo" extends="memberInfo">
+ 		<result property="teacherSubject" column="teacher_Subject"/>
+ 		<result property="teacherPhone" column="teacher_phone"/>
+ 		<collection property="stuTeaRelList" javaType="java.util.List" resultMap="stuTeaRel"></collection>
+ 	</resultMap>
+ 	<resultMap type="stuTeaRel" id="stuTeaRel">
+ 		<result property="teacherEmail" column="teacher_email"/>
+ 		<result property="studentEmail" column="student_email"/>
+ 		<result property="isConnected" column="is_connected"/>
+ 	</resultMap>
+ 	 <insert id="insertMemberInfo" parameterType="HashMap">
+	 	insert into member_info (member_email, member_password, member_name, member_role,member_phone) values(#{emailId},#{password},#{memberName},#{role},#{phone})
+	 </insert>
+	 <insert id="insertStudentInfo" parameterType="HashMap">
+	 	insert into student_info (student_email,student_birth) values (#{memberEmail}, DATE_FORMAT(#{studentBirth},'%y-%m-%d'))
+	 </insert>
+	 <insert id="insertTeacherInfo" parameterType="HashMap">
+	 	insert into teacher_info (teacher_email,teacher_subject,teacher_phone) values (#{memberEmail},#{teacherSubject},#{teacherPhone})
+	 </insert>
+	 <insert id="insertTeaAcaRelInfo" parameterType="HashMap">
+	 	insert into tea_aca_rel (member_email,academy_code,is_connected) values (#{memberEmail},#{academyCode},'1')
+	 </insert>
+	 
+	 <insert id="insertStuTeaRel" parameterType="HashMap">
+	 	insert into stu_tea_rel (teacher_email,student_email,is_connected) values (#{teacherEmail},#{studentEmail},#{isConnected})
+	 </insert>
+	 <insert id="insertVideoInfo" parameterType="HashMap">
+	 	insert into video_info (video_id,video_title,teacher_email,view_count,upload_date,video_inst) values (#{videoId},#{videoTitle},#{teacherEmail},0,DATE_FORMAT(NOW(),'%Y-%m-%d'),#{videoInst})
+	 	
+	 </insert>
+	 <insert id="insertVideoReceiverInfo" parameterType="HashMap">
+	 	insert into video_receiver_info (video_id,student_email,read_status,last_view) values (#{videoId},#{studentEmail},0,0000-00-00)
+	 </insert>
+	 <delete id="diconnectRelation" parameterType="HashMap">
+	 	delete from `stu_tea_rel` where `teacher_email`=#{teacherEmail} and `student_email`=#{studentEmail}
+	 </delete>
+	 
+
+	
+	<select id="memberLogin" resultMap="memberInfo">
+		select member_email,member_role from member_info where member_email = #{memberEmail} and member_password = #{memberPassword}
+	</select>
+	
+	<select id="getTeacherInfo" resultMap="teacherInfo">
+		select member_info.member_email,member_info.member_name,member_info.member_role,teacher_info.teacher_phone,teacher_info.teacher_subject,stu_tea_rel.teacher_email,stu_tea_rel.student_email,stu_tea_rel.is_connected
+		from member_info Inner join teacher_info Inner join stu_tea_rel
+		On member_info.member_email = teacher_info.member_email and  stu_tea_rel.teacher_email = member_info.member_email and member_info.member_email = #{memberEmail}
+	</select>
+	
+	<select id="getStudentInfo" resultMap="studentInfo">
+		select member_info.member_email,member_info.member_name,member_info.member_role,student_info.student_birth
+		from member_info Inner join student_info
+		On member_info.member_email = student_info.member_email and member_info.member_email = #{value}
+	</select>
+	<select id="findStudentByEamil" resultMap="studentInfo">
+		select member_info.member_email,member_info.member_name,member_info.member_role,student_info.student_birth
+		from member_info Inner join student_info
+		On member_info.member_email = student_info.member_email and member_info.member_email = #{value}
+	</select>
+	
+	
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
