@@ -42,9 +42,8 @@ public class AppServiceImpl implements AppService{
 	}
 
 	@Override
-	public void getDashboardDataForStudent(HashMap<String, Object> resultMap) {
-		System.out.println("서비스 전:" + resultMap);
-		System.out.println((String)resultMap.get("emailId"));
+	public HashMap<String, Object> getDashboardDataForStudent(HashMap<String, Object> resultMap) {
+		
 		// 오늘 날짜를 기준으로 DueDate 까지 완료된 학습의 갯수를 출력합니다.
 		int completeReate = appDAO.getCompleteRate((String)resultMap.get("emailId"));
 
@@ -73,8 +72,26 @@ public class AppServiceImpl implements AppService{
 		}
 		resultMap.put("deadlineLectureMapList",deadlineLectureMapList );
 		System.out.println("서비스 후:" + resultMap);
+		return resultMap;
 		
 		
+	}
+
+	@Override
+	public HashMap<String, Object> getTeachersData(HashMap<String, Object> resultMap) {
+		//멤버 아이디를 기준으로 선생님들의 정보를 얻어온다.
+		String memberId = (String)resultMap.get("emailId");
+		resultMap.put("teachers", appDAO.getTeachersByMemberId(memberId));
+		return resultMap;
+		
+	}
+
+	@Override
+	public HashMap<String, Object> getLectureListOrderbyUpdateDate(HashMap<String, Object> resultMap) {
+		//멤버 아이디를 기준으로 선생님들의 정보를 얻어온다.
+		String memberId = (String)resultMap.get("emailId");
+		resultMap.put("lecturesOrderbyUpdateDate", appDAO.getLectureListOrderbyUpdateDate(memberId));
+		return resultMap;
 	}
 	
 	

@@ -131,9 +131,16 @@ CREATE TABLE lecture_info(
 )
 drop table lecture_info;
 
-ALTER TABLE lecture_receiver_info ADD COLUMN due_date int(11)
 
-ALTER TABLE lecture_receiver_info ADD COLUMN lecture_receipient_id date
+CREATE TABLE lecture_receipt_info (
+	lecture_receipt_id int(11) not null auto_increment,
+	lecture_id int(11) not null,
+    PRIMARY KEY  (lecture_receipt_id), 
+	FOREIGN KEY (`lecture_id`) REFERENCES `lecture_info` (lecture_id) 
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
+)
+
 
 CREATE TABLE lecture_receiver_info ( 
     lecture_id int(11) NOT NULL, 
@@ -158,14 +165,7 @@ CREATE TABLE lecture_receiver_info (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8; 
 drop table lecture_receiver_info;
 
-CREATE TABLE lecture_receipt_info (
-	lecture_receipt_id int(11) not null auto_increment,
-	lecture_id int(11) not null,
-    PRIMARY KEY  (lecture_receipt_id), 
-	FOREIGN KEY (`lecture_id`) REFERENCES `lecture_info` (lecture_id) 
-        ON DELETE CASCADE 
-        ON UPDATE CASCADE
-)
+
 
 CREATE TABLE video_info ( 
     video_id varchar(20) NOT NULL,

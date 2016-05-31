@@ -61,8 +61,18 @@ public class AppDAOImpl implements AppDAO {
 	@Override
 	public List<HashMap<String, String>> getDeadlineLectureMapList(
 			String memberId) {
-		// TODO Auto-generated method stub
 		return sqlSessionTemplate.selectList("app.getDeadlineLectureMapList", memberId);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getTeachersByMemberId(String memberId) {
+		return sqlSessionTemplate.selectList("app.getTeachersByMemberId", memberId);
+	}
+
+	@Override
+	public Object getLectureListOrderbyUpdateDate(String memberId) {
+		// TODO Auto-generated method stub
+		return sqlSessionTemplate.selectList("app.getLectureListOrderbyUpdateDate", memberId);
 	}
 	
 }

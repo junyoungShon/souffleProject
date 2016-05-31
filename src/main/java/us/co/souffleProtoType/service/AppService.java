@@ -12,6 +12,10 @@ public interface AppService {
 
 	void insertMemberInfo(HashMap<String, String> parameter);
 
-	void getDashboardDataForStudent(HashMap<String, Object> resultMap);
+	HashMap<String, Object> getDashboardDataForStudent(HashMap<String, Object> resultMap);
+
+	HashMap<String, Object> getTeachersData(HashMap<String, Object> resultMap);
+
+	HashMap<String, Object> getLectureListOrderbyUpdateDate(HashMap<String, Object> resultMap);
 
 }

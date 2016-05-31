@@ -162,6 +162,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				and lecture_info.teacher_email =  member_info.member_email
 		]]>
 	 </select>
+	<select id="getLectureListOrderbyUpdateDate" parameterType="String" resultType="HashMap">
+		<![CDATA[
+			select DISTINCT 
+				lecture_receiver_info.lecture_receipt_id as lectureReceiptId,
+				lecture_receiver_info.lecture_id as lectureId,
+				lecture_receiver_info.due_date as dueDate,
+				lecture_info.lecture_type as lectureType,
+				lecture_info.lecture_title as lectureTitle,
+				lecture_info.teacher_email as teacherEmail,
+				member_info.member_name as teacherName
+			from  
+				lecture_receiver_info
+				inner join lecture_info 
+				inner join member_info
+			where 
+				lecture_receiver_info.student_email = #{value}
+				and lecture_receiver_info.lecture_id = lecture_info.lecture_id
+				and lecture_info.teacher_email =  member_info.member_email
+			order by lecture_info.upload_date asc
+		]]>
+	 </select>
+	 
+	<select id="getTeachersByMemberId" parameterType="String" resultType="HashMap">
+		<![CDATA[
+			select 
+				member_info.member_name as teacherName ,stu_tea_rel.is_connected isConnected
+			from 
+				stu_tea_rel 
+				inner join member_info
+			where
+				stu_tea_rel.student_email = #{value} 
+				and stu_tea_rel.teacher_email = member_info.member_email
+		]]>
+	 </select>
 	
 
 	

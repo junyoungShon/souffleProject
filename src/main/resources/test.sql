@@ -129,4 +129,30 @@ select
 				and date_add(now(),interval 3 day) >= date(lecture_receiver_info.due_date) 
 				and lecture_info.teacher_email =  member_info.member_email
 		
+				
+				select 
+				member_info.member_name,stu_tea_rel.is_connected
+			from 
+				stu_tea_rel 
+				inner join member_info
+			where
+				stu_tea_rel.student_email = 'student@test.com'
+				and stu_tea_rel.teacher_email = member_info.member_email
 		
+				
+				
+				select DISTINCT 
+				lecture_receiver_info.lecture_receipt_id as lectureReceiptId,
+				lecture_receiver_info.lecture_id as lectureId,
+				lecture_receiver_info.due_date as dueDate,
+				lecture_info.lecture_type as lectureType,
+				lecture_info.lecture_title as lectureTitle,
+				lecture_info.teacher_email as teacherEmail,
+				member_info.member_name as teacherName
+			from  
+				lecture_receiver_info
+				inner join lecture_info 
+				inner join member_info
+			where 
+				
+			order by lecture_info.upload_date asc

@@ -70,8 +70,6 @@ public class AppController {
 	@ResponseBody
 	public HashMap<String, Object> getDashboardData(HttpServletRequest request){
 		final Claims claims = (Claims) request.getAttribute("claims");
-		System.out.println("유저의 롤"+claims.get("roles"));
-		System.out.println("유저의 아이디"+claims.getSubject());
 		
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
 	
@@ -80,10 +78,42 @@ public class AppController {
 			resultMap.put("role", "선생님");
 		}else{
 			resultMap.put("role", "학생");
-			System.out.println("컨트롤러 전 :" + resultMap);
-			appService.getDashboardDataForStudent(resultMap);
-			System.out.println("컨트롤러 후:" + resultMap);
+			resultMap = appService.getDashboardDataForStudent(resultMap);
 		}
+		return resultMap;
+	}
+	@RequestMapping (value="api_member_getTeachersData")
+	@ResponseBody
+	public HashMap<String, Object> getTeachersData(HttpServletRequest request){
+		final Claims claims = (Claims) request.getAttribute("claims");
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println("오긴오냐");
+		resultMap.put("emailId", claims.getSubject());
+		if(claims.get("roles").equals("teacher")){
+			resultMap.put("role", "선생님");
+		}else{
+			resultMap.put("role", "학생");
+			resultMap = appService.getTeachersData(resultMap);
+		}
+		System.out.println(resultMap);
+		return resultMap;
+	}
+	@RequestMapping (value="api_member_getLectureListOrderbyUpdateDate")
+	@ResponseBody
+	public HashMap<String, Object> getLectureListOrderbyUpdateDate(HttpServletRequest request){
+		final Claims claims = (Claims) request.getAttribute("claims");
+		
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		System.out.println("오긴오냐");
+		resultMap.put("emailId", claims.getSubject());
+		if(claims.get("roles").equals("teacher")){
+			resultMap.put("role", "선생님");
+		}else{
+			resultMap.put("role", "학생");
+			resultMap = appService.getLectureListOrderbyUpdateDate(resultMap);
+		}
+		System.out.println(resultMap);
 		return resultMap;
 	}
 }

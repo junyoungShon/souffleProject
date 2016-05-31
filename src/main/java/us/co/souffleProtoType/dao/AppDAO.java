@@ -24,4 +24,8 @@ public interface AppDAO {
 
 	List<HashMap<String, String>> getDeadlineLectureMapList(String memberId);
 
+	List<HashMap<String, String>> getTeachersByMemberId(String memberId);
+
+	Object getLectureListOrderbyUpdateDate(String memberId);
+
 }
